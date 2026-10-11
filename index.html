@@ -3,93 +3,313 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Longue vie my life ma star !</title>
+  <title>Spécialement pour toi Adji ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(23, 32, 54, 0.85);
+      --accent: #f43f5e;
+      --accent-glow: rgba(244, 63, 94, 0.35);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      background: radial-gradient(circle at top, #1e1b4b 0%, var(--bg) 100%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      color: var(--text);
     }
-    .card {
-      background: white;
-      padding: 30px;
+
+    .top-badge {
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 14px;
       border-radius: 20px;
-      max-width: 450px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .player-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      padding: 28px;
+      max-width: 420px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    h1 {
-      color: #e91e63;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
+
+    /* Pochette d'album animée */
+    .cover-art {
+      width: 220px;
+      height: 220px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+      box-shadow: 0 15px 30px var(--accent-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 24px;
+      overflow: hidden;
     }
-    p {
-      color: #444;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      font-size: 1rem;
+
+    .cover-inner {
+      font-size: 4.5rem;
+      animation: pulse 2s infinite ease-in-out;
     }
-    .btn {
-      background: #e91e63;
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    /* Infos du morceau */
+    .track-meta {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .track-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .track-artist {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .heart-btn {
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+    .heart-btn:active { transform: scale(1.3); }
+
+    /* Timeline audio */
+    .timeline {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #f43f5e, #fb7185);
+      border-radius: 10px;
+    }
+
+    .time-stamps {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 8px;
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    /* Bouton Lyrics (action principale) */
+    .lyrics-trigger {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+    }
+
+    .lyrics-trigger:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 10px 20px var(--accent-glow);
+    }
+
+    /* Modal paroles / message */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: #172036;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 32px 26px;
+      max-width: 460px;
+      width: 100%;
+      position: relative;
+      animation: slideUp 0.35s ease-out;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .lyrics-body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #cbd5e1;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .lyrics-body p {
+      margin-bottom: 12px;
+    }
+
+    .close-btn {
+      width: 100%;
+      background: var(--accent);
       color: white;
       border: none;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 1rem;
-      font-weight: bold;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
       cursor: pointer;
-      margin-top: 15px;
-      transition: transform 0.2s, background 0.2s;
+      transition: opacity 0.2s;
     }
-    .btn:active {
-      transform: scale(0.95);
-    }
-    #surprise {
-      display: none;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
+    .close-btn:hover { opacity: 0.9; }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h1>Longue et belle vie à toi ✨</h1>
-    <p>Hier avant hier c'était incroyable j'ai passé une super journée avec toi .</p>
-    <p>Je voulais marquer le coup à ma manière avec ces quelques lignes de code rien que pour toi.</p>
-    
-    <button class="btn" onclick="reveal()">Clique ici 🎁</button>
+  <div class="top-badge">Lecture exclusive • Spécial Anniversaire</div>
 
-    <div id="surprise">
-      <p><strong>Passe une superbe journée !</strong></p>
-      <p>Plein de belles choses, de bonheur et de réussite pour cette nouvelle année qui commence.</p>
-      <p>❤️</p>
+  <div class="player-card">
+    <div class="cover-art">
+      <div class="cover-inner">👑</div>
+    </div>
+
+    <div class="track-meta">
+      <div>
+        <div class="track-title">Joyeux Anniversaire Adji ✨</div>
+        <div class="track-artist">Morceau dédié • Produit par ton chef</div>
+      </div>
+      <button class="heart-btn" onclick="fireHearts()">❤️</button>
+    </div>
+
+    <div class="timeline">
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <div class="time-stamps">
+        <span>Hier (Retrouvailles)</span>
+        <span>Aujourd'hui (Ta journée)</span>
+      </div>
+    </div>
+
+    <button class="lyrics-trigger" onclick="openLyrics()">
+      <span>Afficher les paroles & le message</span> 📜
+    </button>
+  </div>
+
+  <!-- Fenêtre Popup Paroles -->
+  <div class="modal" id="lyricsModal">
+    <div class="modal-content">
+      <h2>Longue et belle vie à toi ma star ❤️✨</h2>
+      
+      <div class="lyrics-body">
+        <p>Encore trop content de t’avoir vue hier, mais aujourd’hui c'est officiellement ta journée et tous les projecteurs sont sur toi.</p>
+        
+        <p>Tu connais déjà ton chef, impossible de laisser passer ça avec un simple message ordinaire. Je voulais marquer le coup à ma manière avec ces quelques lignes de code créées rien que pour toi.</p>
+        
+        <p>Profite à fond de ta journée ma star. Je te souhaite le meilleur, plein de bonheur, de réussite et de paix. Je t’aime fort bebew 😝❤️.</p>
+      </div>
+
+      <button class="close-btn" onclick="closeLyrics()">Fermer et garder pour soi 🔒</button>
     </div>
   </div>
 
   <script>
-    function launchConfetti() {
+    function openLyrics() {
+      // Lance une explosion de confettis festifs
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 90,
+        spread: 80,
         origin: { y: 0.6 }
       });
+
+      document.getElementById('lyricsModal').style.display = 'flex';
     }
 
-    // Lance des confettis à l'ouverture
-    window.onload = launchConfetti;
+    function closeLyrics() {
+      document.getElementById('lyricsModal').style.display = 'none';
+    }
 
-    function reveal() {
-      document.getElementById('surprise').style.display = 'block';
-      launchConfetti();
+    function fireHearts() {
+      confetti({
+        particleCount: 40,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#f43f5e', '#ffffff', '#fb7185']
+      });
     }
   </script>
 </body>
