@@ -197,6 +197,7 @@
       position: relative;
       animation: slideUp 0.35s ease-out;
       box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      text-align: center;
     }
 
     @keyframes slideUp {
@@ -215,12 +216,48 @@
       font-size: 0.95rem;
       line-height: 1.7;
       color: #cbd5e1;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       text-align: left;
     }
 
     .lyrics-body p {
       margin-bottom: 12px;
+    }
+
+    /* Rose animée apparaissant au bout de 2s */
+    .rose-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin: 16px 0 20px 0;
+      animation: bloom 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .rose-icon {
+      font-size: 3.2rem;
+      filter: drop-shadow(0 0 16px rgba(244, 63, 94, 0.7));
+    }
+
+    .rose-caption {
+      font-size: 0.85rem;
+      color: #fb7185;
+      font-weight: 600;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes bloom {
+      0% {
+        transform: scale(0.2) rotate(-20deg);
+        opacity: 0;
+      }
+      70% {
+        transform: scale(1.15) rotate(5deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
     }
 
     .close-btn {
@@ -283,24 +320,52 @@
         <p>Profite à fond de ta journée ma star. Je te souhaite le meilleur, plein de bonheur, de réussite et de paix. Je t’aime fort bebew 😝❤️.</p>
       </div>
 
+      <!-- Rose qui apparaît après 2 secondes -->
+      <div class="rose-container" id="roseBlock">
+        <div class="rose-icon">🌹</div>
+        <div class="rose-caption">Une rose rouge rien que pour toi</div>
+      </div>
+
       <button class="close-btn" onclick="closeLyrics()">Fermer et garder pour soi 🔒</button>
     </div>
   </div>
 
   <script>
+    let roseTimer = null;
+
     function openLyrics() {
-      // Lance une explosion de confettis festifs
+      // 1. Ouvre la modal
+      document.getElementById('lyricsModal').style.display = 'flex';
+
+      // 2. Première explosion de confettis
       confetti({
         particleCount: 90,
         spread: 80,
         origin: { y: 0.6 }
       });
 
-      document.getElementById('lyricsModal').style.display = 'flex';
+      // 3. Masque la rose si rouverte
+      const rose = document.getElementById('roseBlock');
+      rose.style.display = 'none';
+
+      // 4. Déclenchement de la rose après 2000 ms (2 secondes)
+      clearTimeout(roseTimer);
+      roseTimer = setTimeout(() => {
+        rose.style.display = 'flex';
+
+        // Explosion de pétales rouges et dorés
+        confetti({
+          particleCount: 80,
+          spread: 85,
+          origin: { y: 0.55 },
+          colors: ['#e11d48', '#f43f5e', '#fb7185', '#fbbf24']
+        });
+      }, 2000);
     }
 
     function closeLyrics() {
       document.getElementById('lyricsModal').style.display = 'none';
+      clearTimeout(roseTimer);
     }
 
     function fireHearts() {
